@@ -1,0 +1,47 @@
+How to set up a working env for rct + training (ML) + data generation (gsas-2)
+
+1). Use conda module provided by Theta and clone it. Here the name theta-work should be replaced by other
+
+export PYTHONNOUSERSITE=True
+module load conda/2021-09-22
+
+conda create --clone base --prefix /lus-projects/CSC249ADCD08/twang/env/theta-work
+
+conda activate /lus-projects/CSC249ADCD08/twang/env/theta-work
+conda config --add channels conda-forge
+conda update -y --all
+
+# For this conda module, also need to install latest openssl
+conda install pyopenssl
+
+2). Install rct in this env
+
+conda install -y apache-libcloud chardet colorama dill future idna \
+                 msgpack-python netifaces ntplib parse 'pymongo<4' pyzmq \
+                 regex requests setproctitle urllib3
+
+# If want to install radical.analytics, also need to do
+conda install greenlet sqlalchemy more-itertools
+
+pip install git+https://github.com/radical-cybertools/radical.utils.git@devel
+pip install radical.gtod 
+pip install git+https://github.com/radical-cybertools/radical.saga.git@devel
+pip install git+https://github.com/radical-cybertools/radical.pilot.git@devel
+#pip install git+https://github.com/radical-cybertools/radical.pilot.git@fix/rm_pbspro
+#pip install radical.analytics
+pip install radical.entk
+
+radical-stack
+
+3). Everytime trying to launch rct, do "source setup.sh"
+
+4). With python version >= 3.8, install libgfortran for gsas-2
+
+conda install -c conda-forge libgfortran
+
+5). Install gsas-2
+
+curl https://subversion.xray.aps.anl.gov/admin_pyGSAS/downloads/gsas2full-Latest-Linux-x86_64.sh > /tmp/gsas2full-Latest-Linux-x86_64.sh
+bash /tmp/gsas2full-Latest-Linux-x86_64.sh -b -p ~/g2full_theta
+
+6). Need to launch gsas-2 once on compute node so that the version matches
