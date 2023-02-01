@@ -1,0 +1,65 @@
+	Step 1). setup mongodb
+Polaris does not support lus-projects, so we need to put mongodb at a different position. It does support grand, so we can put mongodb in grand.
+
+First we need a mongodb installation tar. One we can use is /lus-projects/CSC249ADCD08/ramki/libraries/mongodb-linux-x86_64-enterprise-suse15-5.0.8.tgz
+Then do the following:
+
+==================================================================================
+tar -zxf mongodb-linux-x86_64-enterprise-suse15-5.0.8.tgz
+mv mongodb-linux-x86_64-enterprise-suse15-5.0.8 mongo
+mkdir -p mongo/data mongo/etc mongo/var/log mongo/var/run
+touch mongo/var/log/mongodb.log
+==================================================================================
+
+Then need to configure mongodb with the following:
+
+==================================================================================
+cat > mongo/etc/mongodb.theta.conf <<EOT
+
+processManagement:
+  fork: true
+  pidFilePath: $HOME/mongo/var/run/mongod.pid
+
+storage:
+  dbPath: $HOME/mongo/data
+
+systemLog:
+  destination: file
+  path: $HOME/mongo/var/log/mongodb.log
+  logAppend: true
+
+net:
+  bindIp: 0.0.0.0
+  port: 59441
+EOT
+==================================================================================
+
+Here the port number is arbitrary. Do not forget to change three paths!
+
+Finally we can launch mongodb using once_global_setup.sh. This should only be launched once! Only launch it again when the server is under maintainance.
+
+(Important!) If this is the first time setting up this mongodb instance, don't forget to initialize it with the following:
+
+==================================================================================
+/grand/CSC249ADCD08/twang/libraries/mongo/bin/mongo --host `hostname -f` --port 59441
+> use rct_db
+> db.createUser({user: "rct", pwd: "jdWeRT634k", roles: ["readWrite"]})
+> exit
+==================================================================================
+
+
+
+	Step 2). setup env
+First build the basic env for rct using built_rct.sh.
+
+Next install necessary package based on add_extra_package_rct.sh
+
+After everything is finished, source setup_conda.sh everytime log in. 
+
+
+
+	Step 3). launch test cases
+Run test cases in /home/twang3/myWork/exalearn_project/run_polaris/test
+Notice we should not run any test in /home/twang3/myWork/test, as they are for theta-cpu only. 
+
+ 

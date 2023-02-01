@@ -1,0 +1,14 @@
+There are four conda env that we can play with:
+
+	miniconda-3/latest:
+This is the official conda env. It uses python-3.7. It includes almost every packages that we need, except entk
+
+	Ramki-rct:
+This is the one built by Ramki. In the old days it works perfectly for both gsas and training on theta machine, but now because of my fault it was broken
+
+	rct_py_3.7:
+This is a remedy for the broken Ramki-rct. It was built with the command in ./built_rct_py_3.7.sh. We must be careful: Despite it has a name of py_3.7, it will actually automatically upgrade python to py-3.9. We do not install any extra package in that env!!! 
+Use conda list --revisions and conda install --revision i to revert any accidental upgrade!!!
+
+	rct-universal:
+This is built based on rct_py_3.7. It is designed for theta/thetagpu/polaris. This will introduce some problem with miniconda-3/latest, as the latter uses python-3.7, while this env use python-3.9. Basically when we start entk workflow, it will first load miniconda-3 module, which will set the python to be py-3.7, however the python package include list (python -m site) suggests that it will first look at those directory for rct_py_3.7. This will introduce some inconsistency problem. We hope this problem can be solved on polaris (and thetagpu) where we do not need to load miniconda-3/latest module, so that we only have a single version of python.

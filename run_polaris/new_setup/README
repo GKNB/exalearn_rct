@@ -1,0 +1,55 @@
+1). Use conda module provided by Polaris and clone it
+
+module load conda
+conda activate base
+conda create --clone base --prefix /grand/CSC249ADCD08/twang/env/base-clone-polaris
+conda activate /grand/CSC249ADCD08/twang/env/base-clone-polaris
+
+2). Install rct in this env
+
+export PYTHONNOUSERSITE=True
+conda config --add channels conda-forge
+
+conda install -y apache-libcloud chardet colorama dill future idna \
+                 msgpack-python netifaces ntplib parse 'pymongo<4' pyzmq \
+                 regex requests setproctitle urllib3
+
+pip install git+https://github.com/radical-cybertools/radical.utils.git@devel
+pip install radical.gtod
+pip install git+https://github.com/radical-cybertools/radical.saga.git@devel
+pip install git+https://github.com/radical-cybertools/radical.pilot.git@devel
+pip install git+https://github.com/radical-cybertools/radical.entk.git@devel
+
+radical-stack
+
+3). Everytime trying to launch rct, do "source setup.sh"
+
+
+
+===========================================================================================
+4). Following is a complete successful running of gsas on polaris login node:
+
+module load conda
+conda activate base
+rm /grand/CSC249ADCD08/twang/env/base-clone/ -rf
+conda create --clone base --prefix /grand/CSC249ADCD08/twang/env/base-clone
+conda activate /grand/CSC249ADCD08/twang/env/base-clone
+export PYTHONNOUSERSITE=True
+conda config --add channels conda-forge
+conda install -y apache-libcloud chardet colorama dill future idna msgpack-python netifaces ntplib parse 'pymongo<4' pyzmq regex requests setproctitle urllib3
+pip install git+https://github.com/radical-cybertools/radical.utils.git@devel
+pip install radical.gtod radical.saga
+pip install git+https://github.com/radical-cybertools/radical.pilot.git@devel
+radical-stack
+python -c "from mpi4py import MPI"
+curl https://subversion.xray.aps.anl.gov/admin_pyGSAS/downloads/gsas2full-Latest-Linux-x86_64.sh > /tmp/gsas2full-Latest-Linux-x86_64.sh
+bash /tmp/gsas2full-Latest-Linux-x86_64.sh -b -p ~/g2full_polaris
+# This command will fail!
+~/g2full_polaris/bin/svn co https://subversion.xray.aps.anl.gov/pyGSAS/trunk/ ~/g2full_polaris/GSASII --non-interactive --trust-server-cert --config-option servers:global:http-proxy-host=http://proxy-01.pub.alcf.anl.gov --config-option servers:global:http-proxy-port=3128
+# Notice here we don't need to enter proxy and port!!!!!
+~/g2full_polaris/bin/svn co https://subversion.xray.aps.anl.gov/pyGSAS/trunk/ ~/g2full_polaris/GSASII --non-interactive --trust-server-cert
+# For the following command, enter none manually for proxy and port!!!!!
+~/g2full_polaris/bin/python ~/g2full_polaris/GSASII/bootstrap.py
+# As we are using python 3.8, we need libgfortran
+conda install -c conda-forge libgfortran
+python /home/twang3/myWork/exalearn-inverse-application/rct_workflows/Cristina/g2dtgen/src/parameter_sweep/mpi_sweep_hdf5_polaris.py /home/twang3/myWork/exalearn-inverse-application/rct_workflows/Cristina/g2dtgen/configs/config_1521500_monoclinic.txt
