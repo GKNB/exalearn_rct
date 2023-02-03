@@ -35,7 +35,7 @@ class MVP(object):
             parser.print_help()
             sys.exit(-1)
 
-    # This is for simulation, return a stage which has a single sim task
+    # This is for simulation, return a sim task
     def run_mpi_sweep_hdf5_py(self, phase_idx):
 
         nproc = int(self.args.num_rank_sim)
@@ -63,12 +63,10 @@ class MVP(object):
             'cpu_thread_type': 'OpenMP'
         }
         
-        s = entk.Stage()
-        s.add_tasks(t)
-        return s
+        return t
 
 
-    # This is for training, return a stage which has a single training task
+    # This is for training, return a training task
     def run_mtnetwork_training_horovod_py(self, phase_idx):
 
         nproc = int(self.args.num_node_ml)
@@ -94,18 +92,30 @@ class MVP(object):
              'cpu_thread_type'  : None
             }
 
-        s = entk.Stage()
-        s.add_tasks(t)
-        return s
+        return t
 
     def generate_pipeline(self):
         
-        p = entk.Pipeline()
-        for phase in range(int(self.args.num_phase)):
-#            s1 = self.run_mpi_sweep_hdf5_py(phase)
-#            p.add_stages(s1)
-            s2 = self.run_mtnetwork_training_horovod_py(phase)
-            p.add_stages(s2)
+        p = entk.Pipeline() 
+
+        s0 = entk.Stage()
+        t0 = self.run_mpi_sweep_hdf5_py(0)
+        s0.add_tasks(t0)
+        p.add_stages(s0)
+
+        for phase in range(1, int(self.args.num_phase)):
+            s = entk.Stage()
+            ta = self.run_mpi_sweep_hdf5_py(phase)
+            tb = self.run_mtnetwork_training_horovod_py(phase-1)
+            s.add_tasks(ta)
+            s.add_tasks(tb)
+            p.add_stages(s)
+
+        sf = entk.Stage()
+        tf = self.run_mtnetwork_training_horovod_py(int(self.args.num_phase) - 1)
+        sf.add_tasks(tf)
+        p.add_stages(sf)
+
         return p
 
     def run_workflow(self):

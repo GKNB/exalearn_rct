@@ -28,6 +28,8 @@ import time
 
 import preprocess_data as predata
 
+print("Start very beginning of training!")
+
 #----------------------Training settings---------------------------
 
 parser = argparse.ArgumentParser(description='MVP_horovod')
@@ -78,7 +80,7 @@ NUM_LAYERS = 3
 BATCH_SIZE = 512
 
 #root_path = '/lus-projects/CSC249ADCD08/twang/real_work_theta/baseline-rct/sim/'
-root_path = args.data_root_dir + '/phase'.format(args.phase) + '/'
+root_path = args.data_root_dir + '/phase{}'.format(args.phase) + '/'
 path_in_list = ['test_cubic/', 
                 'test_trigonal_part1/', 
                 'test_trigonal_part2/', 
@@ -225,6 +227,10 @@ class Timer(object):
             print('[%s]' % self.name,)
         print('Elapsed: %s' % (time.time() - self.tstart))
 
+def metric_average(val, name):
+    tensor = torch.tensor(val)
+    avg_tensor = hvd.allreduce(tensor, name=name)
+    return avg_tensor.item()
 
 #-----------------------------Loading data--------------------------------
 
@@ -233,6 +239,7 @@ class Timer(object):
 
 #X_scaled = np.load('/home/twang3/myWork/exalearn_project/run_theta/baseline/ml/Output-all-Y.npy')
 #y_scaled = np.load('/home/twang3/myWork/exalearn_project/run_theta/baseline/ml/Output-all-P.npy')
+print("Start reading and preprocessing data!")
 X_scaled, y_scaled = predata.read_and_merge_data(root_path, path_in_list, filename_in_list, rank_max_list, rank_in_max, do_saving=False, filename_prefix="Output")
 print(X_scaled.shape, y_scaled.shape)
 
@@ -297,20 +304,28 @@ test_loader = torch.utils.data.DataLoader(
 #----------------------------setup model---------------------------------
 
 lenet_trained_model = Lenet1d(2806, num_classes=3)
+#if args.phase > 0 and hvd.rank() == 0:
+if args.phase > 0:
+    lenet_trained_model.load_state_dict(torch.load(args.model_dir + "/lenet_model_phase{}.pt".format(args.phase-1), map_location=torch.device('cpu')))
 #lenet_trained_model.load_state_dict(torch.load('/home/twang3/myWork/exalearn-inverse-application/pytorch_classifier/IEEEBigData_fingerprint_model.pt', map_location=torch.device('cpu')))
 if multigpu:
     #dim = 0 [30, xxx] -> [10, ...], [10, ...], [10, ...] on 3 GPUs
     trained_model = nn.DataParallel(rnn)
 lenet_trained_model = lenet_trained_model.to(device)
+
 simple_xfer_model = XFerLearning(256,3)
+#if args.phase > 0 and hvd.rank() == 0:
+if args.phase > 0:
+    simple_xfer_model.load_state_dict(torch.load(args.model_dir + "/simple_xfer_model_phase{}.pt".format(args.phase-1), map_location=torch.device('cpu')))
 simple_xfer_model = simple_xfer_model.to(device)
 
 
 
 #---------------------------setup optimizer with horovod------------------------
 
-optimizer = torch.optim.Adam(list(simple_xfer_model.parameters()) + list(lenet_trained_model.parameters()), lr=LEARNING_RATE)
+#optimizer = torch.optim.Adam(list(simple_xfer_model.parameters()) + list(lenet_trained_model.parameters()), lr=LEARNING_RATE)
 #optimizer = torch.optim.Adam(list(simple_xfer_model.parameters()) + list(lenet_trained_model.parameters()), lr=LEARNING_RATE * hvd.size())
+optimizer = torch.optim.Adam(list(simple_xfer_model.parameters()) + list(lenet_trained_model.parameters()), lr=LEARNING_RATE * np.sqrt(hvd.size()))
 
 # Horovod: broadcast parameters & optimizer state.
 hvd.broadcast_parameters(simple_xfer_model.state_dict(), root_rank=0)
@@ -331,13 +346,13 @@ criterion2 = torch.nn.BCEWithLogitsLoss()
 
 print("the number of cpu threads: {}".format(torch.get_num_threads()))
 t = time.time()
-index_epoch = 0
 
 for epoch in range(1, args.epochs + 1):
+
     if(hvd.rank() == 0):
         print("Epoch: {:4}".format(epoch))
 
-    #simple_xfer_model.train()
+    simple_xfer_model.train()
     lenet_trained_model.train()
     train_sampler.set_epoch(epoch)
 
@@ -363,22 +378,27 @@ for epoch in range(1, args.epochs + 1):
         elapsed = time.time() - t
     
         if (batch_idx % 20 == 0):
-            print("Rank = ", hvd.rank(), "  Batch {:3}/{}: loss1: {:15.6f}, loss2: {:15.6f}, loss_tot: {:15.6f}".format(batch_idx, len(train_loader), loss1.item(), loss2.item(), loss.item()), " Time Taken: {:15.6f}".format(elapsed/100))
+            print("Rank = ", hvd.rank(), "  Batch {:3}/{}: loss1: {:15.6f}, loss2: {:15.6f}, loss_tot: {:15.6f}".format(batch_idx, len(train_loader), loss1.item(), loss2.item(), loss.item()), " Time Taken: {:15.6f}".format(elapsed))
             t = time.time()
 
-#---------------------------------uncomment one layer of comment as they will be useful for more than one epoch-------------------
+    if (epoch % 10 == 0):
+        simple_xfer_model.eval()
+        lenet_trained_model.eval()
+        test_loss = 0.0
+        for inp, current_batch_y in test_loader:
+            xfer_features = lenet_trained_model.fingerprint(inp)            
+            regression_output = simple_xfer_model(xfer_features)
+            class_output = lenet_trained_model.fc2(xfer_features)
+            test_loss += criterion1(regression_output, current_batch_y[:,0:3].to(device)).item()
+        test_loss /= len(test_sampler)
+        test_loss = metric_average(test_loss, 'avg_loss')
+        if hvd.rank() == 0:
+            print("Epoch = ", epoch, " with test Loss: {:15.6f}".format(test_loss))
 
-#if ((index_epoch+1) % 50 == 0):
-#    simple_xfer_model.eval()
-#    lenet_trained_model.eval()
-#    with torch.no_grad():
-#        xfer_features = lenet_trained_model.fingerprint(X_test_torch)            
-#        regression_output = simple_xfer_model(xfer_features)
-#        class_output = lenet_trained_model.fc2(xfer_features)
-#    loss1 = criterion1(regression_output, y_test_torch[:,0:3].to(device))
-#        #loss1 = criterion1(regression_output, y_test_torch[:,0:3].cuda())
-#    print('50 epoch time: {:15.6f}'.format(elapsed/50))
-#    print("  Loss: {:15.6f}".format(loss1.item()))
+if hvd.rank() == 0:
+    torch.save(simple_xfer_model.state_dict(), args.model_dir + "/simple_xfer_model_phase{}.pt".format(args.phase))
+    torch.save(lenet_trained_model.state_dict(), args.model_dir + "/lenet_model_phase{}.pt".format(args.phase))
+
 ##         fig,ax = plt.subplots(figsize=(10,5), nrows=1,ncols=3)
 ##         ax[0].plot(y_test_torch.cpu().detach().numpy()[:,0],regression_output.cpu().detach().numpy()[:,0])
 ##         ax[0].plot(y_test_torch.cpu().detach().numpy()[:,0],y_test_torch.cpu().detach().numpy()[:,0])

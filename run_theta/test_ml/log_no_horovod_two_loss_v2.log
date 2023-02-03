@@ -1,0 +1,86 @@
+Python version
+3.8.10 (default, Jun  4 2021, 15:09:15) 
+[GCC 7.5.0]
+(204895, 2807) (204895, 6)
+(194650, 2807) (194650, 6) (10245, 2807) (10245, 6)
+torch.Size([194650, 1, 2807]) torch.Size([194650, 6]) torch.Size([10245, 1, 2807]) torch.Size([10245, 6])
+the number of cpu threads: 64
+Epoch:    0
+  Batch   0/381, Loss1:       12.173859, Loss2:        2.379972, Loss_tot:       14.553830
+  Batch   5/381, Loss1:        0.490480, Loss2:        0.967281, Loss_tot:        1.457761
+  Batch  10/381, Loss1:        0.225636, Loss2:        0.470577, Loss_tot:        0.696213
+  Batch  15/381, Loss1:        0.084812, Loss2:        0.292569, Loss_tot:        0.377381
+  Batch  20/381, Loss1:        0.038027, Loss2:        0.206685, Loss_tot:        0.244712
+  Batch  25/381, Loss1:        0.027704, Loss2:        0.195985, Loss_tot:        0.223689
+  Batch  30/381, Loss1:        0.023285, Loss2:        0.164209, Loss_tot:        0.187494
+  Batch  35/381, Loss1:        0.016993, Loss2:        0.141787, Loss_tot:        0.158780
+  Batch  40/381, Loss1:        0.013626, Loss2:        0.136350, Loss_tot:        0.149977
+  Batch  45/381, Loss1:        0.013369, Loss2:        0.116891, Loss_tot:        0.130259
+  Batch  50/381, Loss1:        0.011989, Loss2:        0.130473, Loss_tot:        0.142462
+  Batch  55/381, Loss1:        0.010258, Loss2:        0.110509, Loss_tot:        0.120767
+  Batch  60/381, Loss1:        0.011452, Loss2:        0.099402, Loss_tot:        0.110854
+  Batch  65/381, Loss1:        0.011560, Loss2:        0.098361, Loss_tot:        0.109921
+  Batch  70/381, Loss1:        0.009473, Loss2:        0.090201, Loss_tot:        0.099674
+  Batch  75/381, Loss1:        0.009659, Loss2:        0.088251, Loss_tot:        0.097910
+  Batch  80/381, Loss1:        0.009582, Loss2:        0.082807, Loss_tot:        0.092389
+  Batch  85/381, Loss1:        0.010731, Loss2:        0.089797, Loss_tot:        0.100528
+  Batch  90/381, Loss1:        0.008386, Loss2:        0.086048, Loss_tot:        0.094434
+  Batch  95/381, Loss1:        0.007857, Loss2:        0.074712, Loss_tot:        0.082568
+  Batch 100/381, Loss1:        0.009835, Loss2:        0.083596, Loss_tot:        0.093431
+  Batch 105/381, Loss1:        0.008364, Loss2:        0.069986, Loss_tot:        0.078350
+  Batch 110/381, Loss1:        0.006609, Loss2:        0.080554, Loss_tot:        0.087163
+  Batch 115/381, Loss1:        0.006777, Loss2:        0.079362, Loss_tot:        0.086139
+  Batch 120/381, Loss1:        0.008223, Loss2:        0.070826, Loss_tot:        0.079048
+  Batch 125/381, Loss1:        0.008080, Loss2:        0.060798, Loss_tot:        0.068878
+  Batch 130/381, Loss1:        0.007906, Loss2:        0.065794, Loss_tot:        0.073699
+  Batch 135/381, Loss1:        0.006687, Loss2:        0.053256, Loss_tot:        0.059944
+  Batch 140/381, Loss1:        0.008086, Loss2:        0.062830, Loss_tot:        0.070915
+  Batch 145/381, Loss1:        0.007684, Loss2:        0.056298, Loss_tot:        0.063982
+  Batch 150/381, Loss1:        0.007698, Loss2:        0.050777, Loss_tot:        0.058475
+  Batch 155/381, Loss1:        0.007554, Loss2:        0.050003, Loss_tot:        0.057557
+  Batch 160/381, Loss1:        0.007455, Loss2:        0.052632, Loss_tot:        0.060088
+  Batch 165/381, Loss1:        0.005939, Loss2:        0.056550, Loss_tot:        0.062489
+  Batch 170/381, Loss1:        0.006423, Loss2:        0.043943, Loss_tot:        0.050366
+  Batch 175/381, Loss1:        0.006952, Loss2:        0.051781, Loss_tot:        0.058732
+  Batch 180/381, Loss1:        0.006062, Loss2:        0.041899, Loss_tot:        0.047961
+  Batch 185/381, Loss1:        0.006869, Loss2:        0.045160, Loss_tot:        0.052030
+  Batch 190/381, Loss1:        0.006409, Loss2:        0.046540, Loss_tot:        0.052949
+  Batch 195/381, Loss1:        0.005589, Loss2:        0.041856, Loss_tot:        0.047445
+  Batch 200/381, Loss1:        0.006174, Loss2:        0.046026, Loss_tot:        0.052200
+  Batch 205/381, Loss1:        0.006682, Loss2:        0.042709, Loss_tot:        0.049391
+  Batch 210/381, Loss1:        0.006881, Loss2:        0.041071, Loss_tot:        0.047953
+  Batch 215/381, Loss1:        0.005317, Loss2:        0.031525, Loss_tot:        0.036841
+  Batch 220/381, Loss1:        0.005653, Loss2:        0.035535, Loss_tot:        0.041188
+  Batch 225/381, Loss1:        0.006506, Loss2:        0.040283, Loss_tot:        0.046789
+  Batch 230/381, Loss1:        0.007427, Loss2:        0.043289, Loss_tot:        0.050716
+  Batch 235/381, Loss1:        0.005290, Loss2:        0.029709, Loss_tot:        0.034998
+  Batch 240/381, Loss1:        0.005819, Loss2:        0.034419, Loss_tot:        0.040238
+  Batch 245/381, Loss1:        0.005528, Loss2:        0.041374, Loss_tot:        0.046902
+  Batch 250/381, Loss1:        0.005619, Loss2:        0.034780, Loss_tot:        0.040400
+  Batch 255/381, Loss1:        0.003790, Loss2:        0.026289, Loss_tot:        0.030079
+  Batch 260/381, Loss1:        0.004495, Loss2:        0.027709, Loss_tot:        0.032204
+  Batch 265/381, Loss1:        0.004261, Loss2:        0.030060, Loss_tot:        0.034321
+  Batch 270/381, Loss1:        0.004467, Loss2:        0.043518, Loss_tot:        0.047985
+  Batch 275/381, Loss1:        0.004440, Loss2:        0.040568, Loss_tot:        0.045008
+  Batch 280/381, Loss1:        0.005779, Loss2:        0.024009, Loss_tot:        0.029788
+  Batch 285/381, Loss1:        0.003952, Loss2:        0.025916, Loss_tot:        0.029869
+  Batch 290/381, Loss1:        0.004328, Loss2:        0.027201, Loss_tot:        0.031529
+  Batch 295/381, Loss1:        0.004246, Loss2:        0.027067, Loss_tot:        0.031314
+  Batch 300/381, Loss1:        0.003597, Loss2:        0.023943, Loss_tot:        0.027540
+  Batch 305/381, Loss1:        0.004649, Loss2:        0.025455, Loss_tot:        0.030103
+  Batch 310/381, Loss1:        0.004829, Loss2:        0.020818, Loss_tot:        0.025647
+  Batch 315/381, Loss1:        0.004694, Loss2:        0.023148, Loss_tot:        0.027841
+  Batch 320/381, Loss1:        0.003801, Loss2:        0.023437, Loss_tot:        0.027237
+  Batch 325/381, Loss1:        0.004301, Loss2:        0.020235, Loss_tot:        0.024536
+  Batch 330/381, Loss1:        0.003935, Loss2:        0.023805, Loss_tot:        0.027739
+  Batch 335/381, Loss1:        0.003505, Loss2:        0.017679, Loss_tot:        0.021185
+  Batch 340/381, Loss1:        0.004508, Loss2:        0.022770, Loss_tot:        0.027278
+  Batch 345/381, Loss1:        0.002910, Loss2:        0.023588, Loss_tot:        0.026498
+  Batch 350/381, Loss1:        0.004212, Loss2:        0.021285, Loss_tot:        0.025497
+  Batch 355/381, Loss1:        0.003798, Loss2:        0.018912, Loss_tot:        0.022710
+  Batch 360/381, Loss1:        0.003975, Loss2:        0.016848, Loss_tot:        0.020823
+  Batch 365/381, Loss1:        0.003870, Loss2:        0.018691, Loss_tot:        0.022561
+  Batch 370/381, Loss1:        0.003405, Loss2:        0.016661, Loss_tot:        0.020066
+  Batch 375/381, Loss1:        0.003347, Loss2:        0.013461, Loss_tot:        0.016807
+  Batch 380/381, Loss1:        0.002113, Loss2:        0.014573, Loss_tot:        0.016687
+Application 27813585 resources: utime ~7342s, stime ~4674s, Rss ~130838532, inblocks ~9800342, outblocks ~0

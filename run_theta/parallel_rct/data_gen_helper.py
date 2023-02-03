@@ -44,9 +44,6 @@ if __name__ == '__main__':
         trigonal_c1_part1_start_in = trigonal_c1_part1_start + pi * trigonal_c1_part1_step_size
         trigonal_c1_part1_end_in = trigonal_c1_part1_end - (num_step - 1 - pi) * trigonal_c1_part1_step_size
         trigonal_c1_part1_step_size_in = trigonal_c1_part1_step_size * num_step
-        trigonal_c2_part1_start_in = trigonal_c2_part1_start + pi * trigonal_c2_part1_step_size
-        trigonal_c2_part1_end_in = trigonal_c2_part1_end - (num_step - 1 - pi) * trigonal_c2_part1_step_size
-        trigonal_c2_part1_step_size_in = trigonal_c2_part1_step_size * num_step
 
         trigonal_part1_file_name = root_dir + 'configs_phase{}/config_1522004_trigonal_part1.txt'.format(pi)
         os.makedirs(os.path.dirname(trigonal_part1_file_name), exist_ok = True)
@@ -60,7 +57,7 @@ if __name__ == '__main__':
             f.write("path_out = \'" + root_path_out + "/phase{}/test_trigonal_part1/\'\n".format(pi))
             f.write("name_out = 'trigonal_1522004'\n")
             f.write("sweep_cell_1 = [{}, {}, {}]\n".format(trigonal_c1_part1_start_in, trigonal_c1_part1_end_in, trigonal_c1_part1_step_size_in))
-            f.write("sweep_cell_4 = [{}, {}, {}]\n".format(trigonal_c2_part1_start_in, trigonal_c2_part1_end_in, trigonal_c2_part1_step_size_in))
+            f.write("sweep_cell_4 = [{}, {}, {}]\n".format(trigonal_c2_part1_start, trigonal_c2_part1_end, trigonal_c2_part1_step_size))
             f.write("tmin = 1.36\n")
             f.write("tmax = 18.919\n")
             f.write("tstep = 0.0009381\n")
@@ -69,9 +66,6 @@ if __name__ == '__main__':
         trigonal_c1_part2_start_in = trigonal_c1_part2_start + pi * trigonal_c1_part2_step_size
         trigonal_c1_part2_end_in = trigonal_c1_part2_end - (num_step - 1 - pi) * trigonal_c1_part2_step_size
         trigonal_c1_part2_step_size_in = trigonal_c1_part2_step_size * num_step
-        trigonal_c2_part2_start_in = trigonal_c2_part2_start + pi * trigonal_c2_part2_step_size
-        trigonal_c2_part2_end_in = trigonal_c2_part2_end - (num_step - 1 - pi) * trigonal_c2_part2_step_size
-        trigonal_c2_part2_step_size_in = trigonal_c2_part2_step_size * num_step
 
         trigonal_part2_file_name = root_dir + 'configs_phase{}/config_1522004_trigonal_part2.txt'.format(pi)
         os.makedirs(os.path.dirname(trigonal_part2_file_name), exist_ok = True)
@@ -85,7 +79,7 @@ if __name__ == '__main__':
             f.write("path_out = \'" + root_path_out + "/phase{}/test_trigonal_part2/\'\n".format(pi))
             f.write("name_out = 'trigonal_1522004'\n")
             f.write("sweep_cell_1 = [{}, {}, {}]\n".format(trigonal_c1_part2_start_in, trigonal_c1_part2_end_in, trigonal_c1_part2_step_size_in))
-            f.write("sweep_cell_4 = [{}, {}, {}]\n".format(trigonal_c2_part2_start_in, trigonal_c2_part2_end_in, trigonal_c2_part2_step_size_in))
+            f.write("sweep_cell_4 = [{}, {}, {}]\n".format(trigonal_c2_part2_start, trigonal_c2_part2_end, trigonal_c2_part2_step_size))
             f.write("tmin = 1.36\n")
             f.write("tmax = 18.919\n")
             f.write("tstep = 0.0009381\n")
@@ -94,9 +88,6 @@ if __name__ == '__main__':
         tetragonal_c1_start_in = tetragonal_c1_start + pi * tetragonal_c1_step_size
         tetragonal_c1_end_in = tetragonal_c1_end - (num_step - 1 - pi) * tetragonal_c1_step_size
         tetragonal_c1_step_size_in = tetragonal_c1_step_size * num_step
-        tetragonal_c2_start_in = tetragonal_c2_start + pi * tetragonal_c2_step_size
-        tetragonal_c2_end_in = tetragonal_c2_end - (num_step - 1 - pi) * tetragonal_c2_step_size
-        tetragonal_c2_step_size_in = tetragonal_c2_step_size * num_step
 
         tetragonal_file_name = root_dir + 'configs_phase{}/config_1531431_tetragonal.txt'.format(pi)
         os.makedirs(os.path.dirname(tetragonal_file_name), exist_ok = True)
@@ -110,7 +101,7 @@ if __name__ == '__main__':
             f.write("path_out = \'" + root_path_out + "/phase{}/test_tetragonal/\'\n".format(pi))
             f.write("name_out = 'tetragonal_1531431'\n")
             f.write("sweep_cell_1 = [{}, {}, {}]\n".format(tetragonal_c1_start_in, tetragonal_c1_end_in, tetragonal_c1_step_size_in))
-            f.write("sweep_cell_3 = [{}, {}, {}]\n".format(tetragonal_c2_start_in, tetragonal_c2_end_in, tetragonal_c2_step_size_in))
+            f.write("sweep_cell_3 = [{}, {}, {}]\n".format(tetragonal_c2_start, tetragonal_c2_end, tetragonal_c2_step_size))
             f.write("tmin = 1.36\n")
             f.write("tmax = 18.919\n")
             f.write("tstep = 0.0009381\n")
