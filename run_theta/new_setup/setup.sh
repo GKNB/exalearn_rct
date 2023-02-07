@@ -2,6 +2,7 @@
 
 module load conda/2021-09-22
 conda activate /lus-projects/CSC249ADCD08/twang/env/theta-work
+#conda activate /lus-projects/CSC249ADCD08/twang/env/theta-rct-analytics
 
 which python
 python -V

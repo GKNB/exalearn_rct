@@ -1,0 +1,13 @@
+[Global_Params]
+path_in = '/home/twang3/myWork/exalearn_project/run_theta/baseline/sim/cif_file_in/'
+symmetry = 'trigonal'
+name = 'LaMnO3'
+cif = '1522004.cif'
+instprm = 'NOMAD-Bank4-ExperimentMatch.instprm'
+path_out = '/lus-projects/CSC249ADCD08/twang/real_work_theta/baseline/sim/test_merge//phase1/test_trigonal_part1/'
+name_out = 'trigonal_1522004'
+sweep_cell_1 = [2.55, 5.5, 0.1]
+sweep_cell_4 = [20.5, 88.0, 1.0]
+tmin = 1.36
+tmax = 18.919
+tstep = 0.0009381

@@ -1,0 +1,13 @@
+[Global_Params]
+path_in = '/home/twang3/myWork/exalearn_project/run_theta/baseline/sim/cif_file_in/'
+symmetry = 'tetragonal'
+name = 'KNbO3'
+cif = '1531431.cif'
+instprm = 'NOMAD-Bank4-ExperimentMatch.instprm'
+path_out = '/lus-projects/CSC249ADCD08/twang/real_work_theta/baseline/sim/test_merge//phase0/test_tetragonal/'
+name_out = 'tetragonal_1531431'
+sweep_cell_1 = [3.5, 4.495, 0.01]
+sweep_cell_3 = [3.5, 4.49, 0.02]
+tmin = 1.36
+tmax = 18.919
+tstep = 0.0009381

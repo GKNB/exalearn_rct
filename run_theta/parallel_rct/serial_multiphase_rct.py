@@ -50,7 +50,7 @@ class MVP(object):
         t = entk.Task()
         t.pre_exec = pre_exec_list
         t.executable = 'python'
-        t.arguments = ['/home/twang3/myWork/exalearn-inverse-application/rct_workflows/Cristina/g2dtgen/src/parameter_sweep/mpi_sweep_hdf5_multi_sym_theta.py',
+        t.arguments = ['/lus-projects/CSC249ADCD08/twang/real_work_theta/code/mpi_sweep_hdf5_multi_sym_theta.py',
                        '{}/configs_phase{}/config_1001460_cubic.txt'.format(self.args.config_root_dir, phase_idx),
                        '{}/configs_phase{}/config_1522004_trigonal_part1.txt'.format(self.args.config_root_dir, phase_idx),
                        '{}/configs_phase{}/config_1522004_trigonal_part2.txt'.format(self.args.config_root_dir, phase_idx),
@@ -77,7 +77,7 @@ class MVP(object):
         t.pre_exec = ['module load conda/2021-09-22',
                       'export OMP_NUM_THREADS=32']
         t.executable = 'python'
-        t.arguments = ['/home/twang3/myWork/exalearn_project/run_theta/parallel_rct/mtnetwork-training-horovod.py',
+        t.arguments = ['/lus-projects/CSC249ADCD08/twang/real_work_theta/code/mtnetwork-training-horovod.py',
                        '--num_threads={}'.format(32),
                        '--device=cpu',
                        '--epochs={}'.format(self.args.num_epoch),
@@ -102,8 +102,8 @@ class MVP(object):
         
         p = entk.Pipeline()
         for phase in range(int(self.args.num_phase)):
-#            s1 = self.run_mpi_sweep_hdf5_py(phase)
-#            p.add_stages(s1)
+            s1 = self.run_mpi_sweep_hdf5_py(phase)
+            p.add_stages(s1)
             s2 = self.run_mtnetwork_training_horovod_py(phase)
             p.add_stages(s2)
         return p
@@ -117,12 +117,12 @@ class MVP(object):
 if __name__ == "__main__":
 
     mvp = MVP()
-    n_nodes = 8
-#    n_nodes = math.ceil(float(int(mvp.args.num_rank)/64))
+    n_nodes = 128
     mvp.set_resource(res_desc = {
         'resource': 'anl.theta',
-        'queue'   : 'debug-flat-quad',
-        'walltime': 60, #MIN
+#        'queue'   : 'debug-flat-quad',
+        'queue'   : 'default',
+        'walltime': 180, #MIN
         'cpus'    : 64 * n_nodes,
         'gpus'    : 0 * n_nodes,
         'project' : 'CSC249ADCD08'

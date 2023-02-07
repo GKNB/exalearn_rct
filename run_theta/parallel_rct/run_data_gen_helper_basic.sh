@@ -12,7 +12,7 @@ python ./data_gen_helper.py \
 	92 120 0.5 \
 	3.5 4.5 0.005 \
 	3.5 4.5 0.002 \
-	4 \
+	1 \
 	/lus-projects/CSC249ADCD08/twang/real_work_theta/code/cif_file_in/ \
 	${exp_dir_name}/Ex${exp_idx}/data
 

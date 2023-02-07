@@ -71,7 +71,6 @@ args.cuda = args.device.find("gpu")!=-1
 
 SEQ_LENGTH = 256
 STRIDE = 1
-NUM_BATCHES = 120
 HIDDEN_SIZE = 128
 LEARNING_RATE = 0.001
 DROPOUT = 0.2
@@ -79,8 +78,8 @@ NUM_OUTPUTS = 2
 NUM_LAYERS = 3
 BATCH_SIZE = 512
 
-#root_path = '/lus-projects/CSC249ADCD08/twang/real_work_theta/baseline-rct/sim/'
 root_path = args.data_root_dir + '/phase{}'.format(args.phase) + '/'
+print("root_path for data = ", root_path)
 path_in_list = ['test_cubic/', 
                 'test_trigonal_part1/', 
                 'test_trigonal_part2/', 
@@ -237,8 +236,6 @@ def metric_average(val, name):
 #X_scaled = np.load('/home/twang3/myWork/multitask_all_Y_balanced.npy')
 #y_scaled = np.load('/home/twang3/myWork/multitask_all_P_balanced.npy')
 
-#X_scaled = np.load('/home/twang3/myWork/exalearn_project/run_theta/baseline/ml/Output-all-Y.npy')
-#y_scaled = np.load('/home/twang3/myWork/exalearn_project/run_theta/baseline/ml/Output-all-P.npy')
 print("Start reading and preprocessing data!")
 X_scaled, y_scaled = predata.read_and_merge_data(root_path, path_in_list, filename_in_list, rank_max_list, rank_in_max, do_saving=False, filename_prefix="Output")
 print(X_scaled.shape, y_scaled.shape)
